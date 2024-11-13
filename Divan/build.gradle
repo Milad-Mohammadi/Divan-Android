@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask
-
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
@@ -10,6 +8,12 @@ plugins {
 
 kapt {
     correctErrorTypes true
+}
+
+def apiPropertiesFile = rootProject.file("api.properties")
+def apiProperties = new Properties()
+if (apiPropertiesFile.exists()) {
+    apiProperties.load(new FileInputStream(apiPropertiesFile))
 }
 
 android {
@@ -25,12 +29,16 @@ android {
 
     buildTypes {
         def BASE_URL = "BASE_URL"
+        def SECRET_KEY = "SECRET_KEY"
+        def FORM_ID = "FORM_ID"
         def CONFIG = { k -> "\"$k\"" }
 
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", BASE_URL, CONFIG("https://api.divan.ir/")
+            buildConfigField "String", BASE_URL, CONFIG("https://api.formaloo.me/")
+            buildConfigField "String", SECRET_KEY, CONFIG(apiProperties['SECRET_KEY'])
+            buildConfigField "String", FORM_ID, CONFIG(apiProperties['FORM_ID'])
         }
 
         release {
@@ -38,7 +46,9 @@ android {
             shrinkResources true
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", BASE_URL, CONFIG("https://api.divan.ir/")
+            buildConfigField "String", BASE_URL, CONFIG("https://api.formaloo.me/")
+            buildConfigField "String", SECRET_KEY, CONFIG(apiProperties['SECRET_KEY'])
+            buildConfigField "String", FORM_ID, CONFIG(apiProperties['FORM_ID'])
         }
     }
 
