@@ -29,16 +29,16 @@ android {
 
     buildTypes {
         def BASE_URL = "BASE_URL"
-        def SECRET_KEY = "SECRET_KEY"
-        def FORM_ID = "FORM_ID"
+        def API_KEY = "API_KEY"
+        def FORM_SLUG = "FORM_SLUG"
         def CONFIG = { k -> "\"$k\"" }
 
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", BASE_URL, CONFIG("https://api.formaloo.me/")
-            buildConfigField "String", SECRET_KEY, CONFIG(apiProperties['SECRET_KEY'])
-            buildConfigField "String", FORM_ID, CONFIG(apiProperties['FORM_ID'])
+            buildConfigField "String", FORM_SLUG, CONFIG(apiProperties['FORM_SLUG'])
+            buildConfigField "String", API_KEY, CONFIG(apiProperties['API_KEY'])
         }
 
         release {
@@ -47,8 +47,8 @@ android {
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", BASE_URL, CONFIG("https://api.formaloo.me/")
-            buildConfigField "String", SECRET_KEY, CONFIG(apiProperties['SECRET_KEY'])
-            buildConfigField "String", FORM_ID, CONFIG(apiProperties['FORM_ID'])
+            buildConfigField "String", FORM_SLUG, CONFIG(apiProperties['FORM_SLUG'])
+            buildConfigField "String", API_KEY, CONFIG(apiProperties['API_KEY'])
         }
     }
 
@@ -149,4 +149,7 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:3.2.1"
     implementation 'androidx.paging:paging-compose:3.2.1'
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.9.21"
+
+    // Data Store
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 }

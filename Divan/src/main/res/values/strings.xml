@@ -4,4 +4,6 @@
   <string name="discover"><![CDATA[News & Discover]]></string>
   <string name="startups">Startups</string>
   <string name="about">About</string>
+    <string name="no_internet_connection">Please check your Internet connection.</string>
+  <string name="connection_error_description">Error connecting to server, please try again!</string>
 </resources>
