@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask
-
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
@@ -10,6 +8,12 @@ plugins {
 
 kapt {
     correctErrorTypes true
+}
+
+def apiPropertiesFile = rootProject.file("api.properties")
+def apiProperties = new Properties()
+if (apiPropertiesFile.exists()) {
+    apiProperties.load(new FileInputStream(apiPropertiesFile))
 }
 
 android {
@@ -25,12 +29,16 @@ android {
 
     buildTypes {
         def BASE_URL = "BASE_URL"
+        def API_KEY = "API_KEY"
+        def FORM_SLUG = "FORM_SLUG"
         def CONFIG = { k -> "\"$k\"" }
 
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", BASE_URL, CONFIG("https://api.divan.ir/")
+            buildConfigField "String", BASE_URL, CONFIG("https://api.formaloo.me/")
+            buildConfigField "String", FORM_SLUG, CONFIG(apiProperties['FORM_SLUG'])
+            buildConfigField "String", API_KEY, CONFIG(apiProperties['API_KEY'])
         }
 
         release {
@@ -38,7 +46,9 @@ android {
             shrinkResources true
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", BASE_URL, CONFIG("https://api.divan.ir/")
+            buildConfigField "String", BASE_URL, CONFIG("https://api.formaloo.me/")
+            buildConfigField "String", FORM_SLUG, CONFIG(apiProperties['FORM_SLUG'])
+            buildConfigField "String", API_KEY, CONFIG(apiProperties['API_KEY'])
         }
     }
 
@@ -139,4 +149,7 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:3.2.1"
     implementation 'androidx.paging:paging-compose:3.2.1'
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.9.21"
+
+    // Data Store
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 }
