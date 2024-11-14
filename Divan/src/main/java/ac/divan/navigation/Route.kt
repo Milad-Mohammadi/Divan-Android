@@ -12,5 +12,4 @@ sealed class LeafScreen(val route: String) {
     data object Startups : LeafScreen("startups")
     data object Discover : LeafScreen("discover")
     data object About : LeafScreen("about")
-
 }

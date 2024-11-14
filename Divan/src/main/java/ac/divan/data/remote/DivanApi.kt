@@ -5,11 +5,10 @@ import ac.divan.data.remote.dto.ApiResponse
 import ac.divan.data.remote.dto.menu.DefaultMenuContent
 import ac.divan.data.remote.dto.menu.DefaultMenuSlug
 import retrofit2.http.GET
-import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface DivanApi {
-    @POST(ApiRoutes.GET_SHARED_BOARDS)
+    @GET(ApiRoutes.GET_SHARED_BOARDS)
     suspend fun getFormInfo(): ApiResponse<DefaultMenuSlug>
 
     @GET(ApiRoutes.GET_DEFAULT_MENU)
