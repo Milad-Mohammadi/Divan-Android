@@ -12,6 +12,7 @@ data class DefaultMenuContent(
         val icon: String?,
         val title: String,
         val type: String,
+        var content: List<Content>,
         var sub_items: List<DefaultMenuItem>? = null
     )
 }
