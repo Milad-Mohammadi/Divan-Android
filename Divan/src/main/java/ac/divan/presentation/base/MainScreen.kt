@@ -1,18 +1,18 @@
-package ac.divan.ui
+package ac.divan.presentation.base
 
+import ac.divan.R
+import ac.divan.data.remote.dto.block.BlockType
+import ac.divan.data.remote.dto.menu.DefaultMenuContent
 import ac.divan.navigation.NavGraph
-import ac.divan.navigation.NavigationBarItems
-import ac.divan.navigation.navigateToRootScreen
-import ac.divan.presentation.components.text.TextBodyMedium
+import ac.divan.presentation.base.components.NavDrawerItem
+import ac.divan.presentation.components.text.TextBodySmall
 import ac.divan.presentation.components.text.TextTitleLarge
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -24,27 +24,22 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
@@ -52,58 +47,65 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(menu: DefaultMenuContent) {
     val navController = rememberNavController()
-    var selectedNavItemIndex by rememberSaveable { mutableIntStateOf(0) }
+    var selectedNavItemSlug by rememberSaveable { mutableStateOf(menu.block.items.first().slug) }
+    var selectedNavItemTitle by rememberSaveable { mutableStateOf(menu.block.items.first().title) }
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val navItems = NavigationBarItems.get(LocalContext.current)
+    val navItems = menu.block.items
 
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(
-                modifier = Modifier.width(screenWidth * 0.75f)
+                modifier = Modifier.width(screenWidth * 0.75f),
             ) {
-                Text("Drawer title", modifier = Modifier.padding(16.dp))
+                LazyColumn {
+                    item {
+                        TextTitleLarge(stringResource(R.string.app_name), modifier = Modifier.padding(16.dp))
+                    }
 
-                navItems.forEachIndexed { index, item ->
-                    NavigationDrawerItem(
-                        modifier = Modifier.padding(horizontal = 8.dp),
-                        colors = NavigationDrawerItemDefaults
-                            .colors(
-                                selectedContainerColor = MaterialTheme
-                                    .colorScheme
-                                    .primary
-                                    .copy(alpha = 0.1f)
-                            ),
-                        label = {
-                            val isSelected = index == selectedNavItemIndex
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = if (isSelected) item.iconFillId else item.iconId),
-                                    contentDescription = null,
-                                    tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
-                                )
-                                TextBodyMedium(
-                                    text = item.title,
-                                    color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
-                                    textAlign = TextAlign.Center
-                                )
+                    navItems.forEachIndexed { _, item ->
+                        when (item.type) {
+                            BlockType.GROUP.slug -> {
+                                item {
+                                    TextBodySmall(item.title, modifier = Modifier.padding(16.dp).alpha(0.7f))
+                                    item.sub_items?.forEachIndexed { _, subItem ->
+                                        NavDrawerItem(
+                                            slug = subItem.slug,
+                                            icon = subItem.icon,
+                                            title = subItem.title,
+                                            isSelected = subItem.slug == selectedNavItemSlug,
+                                            onSelect = {
+                                                coroutineScope.launch { drawerState.close() }
+                                                selectedNavItemSlug = subItem.slug
+                                                selectedNavItemTitle = subItem.title
+                                                // navController.navigateToRootScreen(item.screen)
+                                            }
+                                        )
+                                    }
+                                }
                             }
-                        },
-                        selected = index == selectedNavItemIndex,
-                        onClick = {
-                            coroutineScope.launch { drawerState.close() }
-                            selectedNavItemIndex = index
-                            navController.navigateToRootScreen(item.screen)
+                            else -> {
+                                item {
+                                    NavDrawerItem(
+                                        slug = item.slug,
+                                        icon = item.icon,
+                                        title = item.title,
+                                        isSelected = item.slug == selectedNavItemSlug,
+                                        onSelect = {
+                                            coroutineScope.launch { drawerState.close() }
+                                            selectedNavItemSlug = item.slug
+                                            selectedNavItemTitle = item.title
+                                            // navController.navigateToRootScreen(item.screen)
+                                        }
+                                    )
+                                }
+                            }
                         }
-                    )
+                    }
                 }
             }
         }
@@ -122,7 +124,7 @@ fun MainScreen() {
                     ),
                     title = {
                         TextTitleLarge(
-                            text = navItems[selectedNavItemIndex].title,
+                            text = selectedNavItemTitle,
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1
                         )
@@ -152,6 +154,7 @@ fun MainScreen() {
             ) {
                 NavGraph(
                     navController = navController,
+                    data = navItems.first { it.slug == selectedNavItemSlug }
                 )
             }
         }

@@ -149,7 +149,4 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:3.2.1"
     implementation 'androidx.paging:paging-compose:3.2.1'
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.9.21"
-
-    // Data Store
-    implementation "androidx.datastore:datastore-preferences:1.0.0"
 }
