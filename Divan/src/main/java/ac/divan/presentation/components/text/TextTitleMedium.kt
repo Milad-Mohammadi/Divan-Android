@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun TextTitleMedium(
@@ -28,6 +29,7 @@ fun TextTitleMedium(
         textAlign = textAlign,
         color = color,
         overflow = overflow,
-        maxLines = maxLines
+        maxLines = maxLines,
+        lineHeight = (MaterialTheme.typography.bodyMedium.fontSize.value + 6).sp
     )
 }

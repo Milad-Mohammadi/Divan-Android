@@ -1,6 +1,6 @@
 package ac.divan.navigation
 
-import ac.divan.data.remote.dto.menu.DefaultMenuContent
+import ac.divan.data.remote.dto.menu.Content
 import ac.divan.presentation.home.HomeScreen
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -26,7 +26,7 @@ fun NavController.navigateToRootScreen(rootScreen: RootScreen) {
 @Composable
 fun NavGraph(
     navController: NavHostController,
-    data: DefaultMenuContent.DefaultMenuItem,
+    data: List<Content>,
 ) {
     NavHost(
         navController = navController,
@@ -40,7 +40,7 @@ fun NavGraph(
 
 fun NavGraphBuilder.addHomeRoute(
     navController: NavController,
-    data: DefaultMenuContent.DefaultMenuItem
+    data: List<Content>
 ) {
     navigation(
         route = RootScreen.Home.route,
@@ -52,7 +52,7 @@ fun NavGraphBuilder.addHomeRoute(
 
 private fun NavGraphBuilder.showHome(
     navController: NavController,
-    data: DefaultMenuContent.DefaultMenuItem,
+    data: List<Content>,
 ) {
     composable(route = LeafScreen.Home.route) {
         HomeScreen(navController, data)
