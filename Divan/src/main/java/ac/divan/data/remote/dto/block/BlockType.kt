@@ -6,12 +6,13 @@ enum class BlockType(val slug: String) {
     STATS("stats"),
     MENU("menu"),
     GROUP("group"),
+    HEADING("heading"),
+    PARAGRAPH("paragraph"),
     FORM_CHARTS("form_charts"),
     FORM_DISPLAY("form_display"),
     FORM_RESULT("form_result"),
     KANBAN("kanban"),
-    REPORT("report")
-
+    REPORT("report"),
 }
 
 enum class BlockSubType(val slug: String) {

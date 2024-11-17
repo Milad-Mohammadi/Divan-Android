@@ -154,7 +154,7 @@ fun MainScreen(menu: DefaultMenuContent) {
             ) {
                 NavGraph(
                     navController = navController,
-                    data = navItems.first { it.slug == selectedNavItemSlug }
+                    data = navItems.firstNotNullOf { it.findItemBySlug(selectedNavItemSlug) }.content
                 )
             }
         }

@@ -14,5 +14,10 @@ data class DefaultMenuContent(
         val type: String,
         var content: List<Content>,
         var sub_items: List<DefaultMenuItem>? = null
-    )
+    ) {
+        fun findItemBySlug(targetSlug: String): DefaultMenuItem? {
+            if (this.slug == targetSlug) return this
+            return sub_items?.firstNotNullOfOrNull { it.findItemBySlug(targetSlug) }
+        }
+    }
 }
