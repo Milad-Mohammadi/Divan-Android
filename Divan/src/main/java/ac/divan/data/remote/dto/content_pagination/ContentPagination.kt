@@ -1,7 +1,7 @@
 package ac.divan.data.remote.dto.content_pagination
 
 
-data class Pagination(
+data class ContentPagination(
     val objects: List<RenderedObject>,
     val previous: String?,
     val next: String?,
