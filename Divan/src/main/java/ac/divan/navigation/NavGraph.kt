@@ -1,6 +1,6 @@
 package ac.divan.navigation
 
-import ac.divan.data.remote.dto.menu.Content
+import ac.divan.data.remote.dto.block.Content
 import ac.divan.presentation.home.HomeScreen
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition

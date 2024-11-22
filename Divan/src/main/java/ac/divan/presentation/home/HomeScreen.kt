@@ -2,7 +2,7 @@ package ac.divan.presentation.home
 
 import ac.divan.data.remote.dto.block.BlockType
 import ac.divan.data.remote.dto.content_pagination.RenderedDataItem
-import ac.divan.data.remote.dto.menu.Content
+import ac.divan.data.remote.dto.block.Content
 import ac.divan.presentation.components.text.TextBodyMedium
 import ac.divan.presentation.components.text.TextTitleLarge
 import ac.divan.presentation.components.text.TextTitleMedium

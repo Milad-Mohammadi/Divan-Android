@@ -1,4 +1,4 @@
-package ac.divan.data.remote.dto.menu
+package ac.divan.data.remote.dto.board
 
 import com.google.gson.Gson
 

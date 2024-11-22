@@ -2,7 +2,7 @@ package ac.divan.data.remote.dto.menu
 
 import com.google.gson.annotations.SerializedName
 
-data class DefaultMenuSlug(
+data class FormInfo(
     val board: DefaultMenuBoard,
 ) {
     data class DefaultMenuBoard(
