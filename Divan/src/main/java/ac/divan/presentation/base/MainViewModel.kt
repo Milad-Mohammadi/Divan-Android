@@ -1,7 +1,7 @@
 package ac.divan.presentation.base
 
 import ac.divan.R
-import ac.divan.data.remote.dto.menu.DefaultMenuContent
+import ac.divan.data.remote.dto.board.Board
 import ac.divan.data.remote.onError
 import ac.divan.data.remote.onSuccess
 import ac.divan.domain.use_case.DivanUseCases
@@ -24,8 +24,8 @@ open class MainViewModel @Inject constructor(
     val isLoading: StateFlow<Boolean> = _isLoading
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error
-    private val _defaultMenu = MutableStateFlow<DefaultMenuContent?>(null)
-    val defaultMenu: StateFlow<DefaultMenuContent?> = _defaultMenu
+    private val _defaultMenu = MutableStateFlow<Board?>(null)
+    val defaultMenu: StateFlow<Board?> = _defaultMenu
 
     init {
         getDrawerSlug()

@@ -1,8 +1,8 @@
 package ac.divan.presentation.base
 
 import ac.divan.R
-import ac.divan.data.remote.dto.block.BlockType
-import ac.divan.data.remote.dto.menu.DefaultMenuContent
+import ac.divan.data.remote.dto.board.BlockType
+import ac.divan.data.remote.dto.board.Board
 import ac.divan.navigation.NavGraph
 import ac.divan.presentation.base.components.NavDrawerItem
 import ac.divan.presentation.components.text.TextBodySmall
@@ -47,7 +47,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(menu: DefaultMenuContent) {
+fun MainScreen(menu: Board) {
     val navController = rememberNavController()
     var selectedNavItemSlug by rememberSaveable { mutableStateOf(menu.block.items.first().slug) }
     var selectedNavItemTitle by rememberSaveable { mutableStateOf(menu.block.items.first().title) }

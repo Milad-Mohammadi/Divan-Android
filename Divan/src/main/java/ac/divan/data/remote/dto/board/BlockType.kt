@@ -1,4 +1,4 @@
-package ac.divan.data.remote.dto.block
+package ac.divan.data.remote.dto.board
 
 enum class BlockType(val slug: String) {
     LINK("link"),

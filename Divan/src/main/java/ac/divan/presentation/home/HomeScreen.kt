@@ -1,6 +1,6 @@
 package ac.divan.presentation.home
 
-import ac.divan.data.remote.dto.block.BlockType
+import ac.divan.data.remote.dto.board.BlockType
 import ac.divan.data.remote.dto.content_pagination.RenderedDataItem
 import ac.divan.data.remote.dto.menu.Content
 import ac.divan.presentation.components.text.TextBodyMedium
