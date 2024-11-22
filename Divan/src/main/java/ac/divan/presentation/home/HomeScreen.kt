@@ -6,6 +6,7 @@ import ac.divan.presentation.components.text.TextBodyMedium
 import ac.divan.presentation.components.text.TextTitleLarge
 import ac.divan.presentation.components.text.TextTitleMedium
 import ac.divan.presentation.components.text.TextTitleSmall
+import ac.divan.presentation.home.components.ProfileCard
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -53,6 +54,22 @@ fun HomeScreen(
                 }
 
                 BlockType.PARAGRAPH.slug -> section.content.forEach { item -> TextBodyMedium(item.text ?: "", modifier = Modifier.padding(vertical = 10.dp)) }
+                BlockType.PARAGRAPH.slug -> section.content.forEach { item -> TextBodyMedium(item.text ?: "", modifier = Modifier.padding(vertical = 10.dp)) }
+                BlockType.GRID_VIEW.slug -> {
+                    repeat(10) {
+                        ProfileCard(
+                            modifier = Modifier.padding(bottom = 10.dp),
+                            name = "Dan Vahdat",
+                            imageUrl = "https://via.placeholder.com/600x400", // Replace with actual image URL
+                            knownFor = "Huma",
+                            title = "CEO",
+                            segment = "Unicorn",
+                            previousCompanies = "-",
+                            country = "UK",
+                            additionalInfo = "www.linkedin.com...",
+                        )
+                    }
+                }
             }
         }
     }
