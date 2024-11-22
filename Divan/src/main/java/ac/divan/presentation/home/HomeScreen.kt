@@ -68,6 +68,17 @@ fun HomeScreen(
                         }
                     }
                 }
+                BlockType.TABLE.slug -> {
+                    items(items.itemCount) { index ->
+                        val item = items[index]
+                        item?.let {
+                            ProfileCard(
+                                modifier = Modifier.padding(bottom = 10.dp),
+                                data = item
+                            )
+                        }
+                    }
+                }
             }
         }
     }

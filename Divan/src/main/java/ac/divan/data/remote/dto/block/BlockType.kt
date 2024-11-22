@@ -9,6 +9,7 @@ enum class BlockType(val slug: String) {
     HEADING("heading"),
     PARAGRAPH("paragraph"),
     GRID_VIEW("grid_view"),
+    TABLE("form_result"),
     FORM_CHARTS("form_charts"),
     FORM_DISPLAY("form_display"),
     FORM_RESULT("form_result"),
