@@ -1,8 +1,10 @@
 package ac.divan.presentation.home
 
 import ac.divan.data.remote.dto.block.BlockType
-import ac.divan.data.remote.dto.content_pagination.RenderedDataItem
 import ac.divan.data.remote.dto.block.Content
+import ac.divan.data.remote.dto.content_pagination.RenderedDataItem
+import ac.divan.data.remote.onError
+import ac.divan.data.remote.onSuccess
 import ac.divan.domain.use_case.DivanUseCases
 import android.app.Application
 import androidx.compose.runtime.getValue
@@ -44,6 +46,9 @@ open class HomeViewModel @Inject constructor(
                 BlockType.TABLE.slug -> {
                     it.props.getData()?.slug?.let { slug -> getContentPaginated(slug = slug) }
                 }
+                BlockType.FORM_CHARTS.slug -> {
+                    it.props.getData()?.slug?.let { slug -> getBlock(slug = slug) }
+                }
             }
         }
     }
@@ -53,5 +58,15 @@ open class HomeViewModel @Inject constructor(
             .distinctUntilChanged()
             .cachedIn(viewModelScope)
             .collect { _contentPaginatedState.value = it }
+    }
+
+    private fun getBlock(slug: String) = viewModelScope.launch {
+        useCases
+            .getBlock(slug)
+            .onError { _, message -> /* TODO: Handle Error */ }
+            .onSuccess {
+                val newBlocks = state.blocks.plus(it.responseData)
+                state = state.copy(blocks = newBlocks)
+            }
     }
 }

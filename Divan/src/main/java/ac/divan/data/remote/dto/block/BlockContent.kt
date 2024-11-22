@@ -25,11 +25,6 @@ data class BlockContent(
 
     data class FormStats(
         val total: Int,
-        val fields: StatsFields,
-    )
-
-    data class StatsFields(
-        val total: Int,
         val fields: List<StatsField>,
     )
 
