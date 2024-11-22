@@ -1,8 +1,8 @@
 package ac.divan.presentation.home
 
-import ac.divan.data.remote.dto.board.BlockType
+import ac.divan.data.remote.dto.block.BlockType
 import ac.divan.data.remote.dto.content_pagination.RenderedDataItem
-import ac.divan.data.remote.dto.menu.Content
+import ac.divan.data.remote.dto.block.Content
 import ac.divan.domain.use_case.DivanUseCases
 import android.app.Application
 import androidx.compose.runtime.getValue

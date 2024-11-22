@@ -19,8 +19,8 @@ class DivanRepositoryImpl(
         api.getFormInfo()
     }
 
-    override suspend fun getDefaultMenu(menuSlug: String) = handleApi {
-        api.getDefaultMenu(menuSlug)
+    override suspend fun getBlock(slug: String) = handleApi {
+        api.getBlock(slug)
     }
 
     override suspend fun getBlockContent(slug: String): Flow<PagingData<List<RenderedDataItem>>> {

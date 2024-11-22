@@ -5,7 +5,7 @@ import ac.divan.data.repository.DivanRepositoryImpl
 import ac.divan.domain.repository.DivanRepository
 import ac.divan.domain.use_case.DivanUseCases
 import ac.divan.domain.use_case.GetBlockContent
-import ac.divan.domain.use_case.GetDefaultMenu
+import ac.divan.domain.use_case.GetBlock
 import ac.divan.domain.use_case.GetFormInfo
 import android.app.Application
 import android.content.Context
@@ -34,7 +34,7 @@ object AppModule {
     fun provideActivityUseCases(repository: DivanRepository): DivanUseCases {
         return DivanUseCases(
             getFormInfo = GetFormInfo(repository),
-            getDefaultMenu = GetDefaultMenu(repository),
+            getBlock = GetBlock(repository),
             getBlockContent = GetBlockContent(repository),
         )
     }
