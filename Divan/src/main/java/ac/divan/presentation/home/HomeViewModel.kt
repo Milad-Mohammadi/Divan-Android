@@ -25,8 +25,8 @@ open class HomeViewModel @Inject constructor(
 ): AndroidViewModel(application) {
 
     var state by mutableStateOf(HomeState())
-    private val _messagesState: MutableStateFlow<PagingData<List<RenderedDataItem>>> = MutableStateFlow(value = PagingData.empty())
-    val messagesState: MutableStateFlow<PagingData<List<RenderedDataItem>>> get() = _messagesState
+    private val _contentPaginatedState: MutableStateFlow<PagingData<List<RenderedDataItem>>> = MutableStateFlow(value = PagingData.empty())
+    val contentPaginatedState: MutableStateFlow<PagingData<List<RenderedDataItem>>> get() = _contentPaginatedState
 
     fun onEvent(event: HomeEvent) {
         when(event) {
@@ -49,6 +49,6 @@ open class HomeViewModel @Inject constructor(
         useCases.getBlockContent(slug)
             .distinctUntilChanged()
             .cachedIn(viewModelScope)
-            .collect { _messagesState.value = it }
+            .collect { _contentPaginatedState.value = it }
     }
 }

@@ -29,9 +29,11 @@ fun ProfileCard(
             .border(width = 1.dp, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f), shape = RoundedCornerShape(10.dp))
             .padding(16.dp)
     ) {
-        data.forEach {
-            SectionLabel(label = it.title)
-            TextTitleMedium(text = it.value ?: "", modifier = Modifier.padding(bottom = 4.dp))
+        data.forEach { item ->
+            if (item.value.isNullOrBlank().not()) {
+                SectionLabel(label = item.title)
+                TextTitleMedium(text = item.value.toString(), modifier = Modifier.padding(bottom = 4.dp))
+            }
         }
     }
 }

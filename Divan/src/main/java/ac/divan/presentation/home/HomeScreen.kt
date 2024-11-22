@@ -9,6 +9,7 @@ import ac.divan.presentation.components.text.TextTitleMedium
 import ac.divan.presentation.components.text.TextTitleSmall
 import ac.divan.presentation.home.components.ProfileCard
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,7 +32,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
-    val items: LazyPagingItems<List<RenderedDataItem>> = viewModel.messagesState.collectAsLazyPagingItems()
+    val items: LazyPagingItems<List<RenderedDataItem>> = viewModel.contentPaginatedState.collectAsLazyPagingItems()
     val initialLoading = items.loadState.refresh is LoadState.Loading && items.itemSnapshotList.items.isEmpty()
 
     LaunchedEffect(data) {
@@ -40,10 +41,9 @@ fun HomeScreen(
     }
 
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(2.dp)
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(2.dp),
+        contentPadding = PaddingValues(16.dp)
     ) {
         state.sections.forEach { section ->
             when (section.type) {
