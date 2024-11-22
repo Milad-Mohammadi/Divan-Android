@@ -1,5 +1,7 @@
 package ac.divan.presentation.home
 
+import ac.divan.data.remote.dto.block.BlockType
+import ac.divan.data.remote.dto.content_pagination.RenderedDataItem
 import ac.divan.data.remote.dto.menu.Content
 import ac.divan.domain.use_case.DivanUseCases
 import android.app.Application
@@ -7,7 +9,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,6 +25,8 @@ open class HomeViewModel @Inject constructor(
 ): AndroidViewModel(application) {
 
     var state by mutableStateOf(HomeState())
+    private val _messagesState: MutableStateFlow<PagingData<List<RenderedDataItem>>> = MutableStateFlow(value = PagingData.empty())
+    val messagesState: MutableStateFlow<PagingData<List<RenderedDataItem>>> get() = _messagesState
 
     fun onEvent(event: HomeEvent) {
         when(event) {
@@ -26,5 +36,19 @@ open class HomeViewModel @Inject constructor(
 
     private fun getContent(content: List<Content>) {
         state = state.copy(sections = content)
+        content.forEach {
+            when (it.type) {
+                BlockType.GRID_VIEW.slug -> {
+                    it.props.getData()?.slug?.let { slug -> getContentPaginated(slug = slug) }
+                }
+            }
+        }
+    }
+
+    private fun getContentPaginated(slug: String) = viewModelScope.launch {
+        useCases.getBlockContent(slug)
+            .distinctUntilChanged()
+            .cachedIn(viewModelScope)
+            .collect { _messagesState.value = it }
     }
 }

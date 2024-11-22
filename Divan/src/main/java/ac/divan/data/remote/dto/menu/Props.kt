@@ -1,5 +1,7 @@
 package ac.divan.data.remote.dto.menu
 
+import com.google.gson.Gson
+
 data class Props(
     val text: String?,
     val type: String?,
@@ -10,4 +12,12 @@ data class Props(
         val slug: String,
         val title: String,
     )
+
+    fun getData(): PropsData? {
+        return try {
+            Gson().fromJson(data.toString(), PropsData::class.java)
+        } catch (e: Exception) {
+            null
+        }
+    }
 }
