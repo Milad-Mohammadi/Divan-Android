@@ -11,8 +11,8 @@ enum class BlockType(val slug: String) {
     GRID_VIEW("grid_view"),
     TABLE("form_result"),
     FORM_CHARTS("form_charts"),
-    FORM_DISPLAY("form_display"),
-    FORM_RESULT("form_result"),
+    DROP_DOWN("dropdown"),
+    MULTI_SELECT("multiple_select"),
     KANBAN("kanban"),
     REPORT("report"),
 }

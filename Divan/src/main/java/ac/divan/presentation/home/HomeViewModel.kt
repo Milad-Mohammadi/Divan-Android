@@ -37,7 +37,7 @@ open class HomeViewModel @Inject constructor(
     }
 
     private fun getContent(content: List<Content>) {
-        state = state.copy(sections = content)
+        state = state.copy(sections = content, blocks = emptyList())
         content.forEach {
             when (it.type) {
                 BlockType.GRID_VIEW.slug -> {
