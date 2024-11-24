@@ -3,6 +3,8 @@ package ac.divan.data.remote.dto.block
 data class BlockContent(
     val items: List<BlockItem>,
     val form: BlockForm,
+    val type: String,
+    val settings: BlockSettings,
 ) {
     data class BlockItem(
         val slug: String,
@@ -25,17 +27,17 @@ data class BlockContent(
 
     data class FormStats(
         val total: Int,
-        val fields: StatsFields,
-    )
-
-    data class StatsFields(
-        val total: Int,
         val fields: List<StatsField>,
     )
 
     data class StatsField(
+        val slug: String,
         val type: String,
         val title: String,
         val readable_stats: Map<String, Int>,
+    )
+
+    data class BlockSettings(
+        val color: Map<String, Map<String, String>>,
     )
 }
