@@ -96,9 +96,8 @@ fun HomeScreen(
                             TextBodyLarge(text = field.title, modifier = Modifier.padding(top = 10.dp, bottom = 4.dp))
 
                             when (field.type) {
-                                BlockType.DROP_DOWN.slug -> {
-                                    // Show PieChart
-
+                                BlockType.DROP_DOWN.slug, BlockType.CHOICE.slug -> {
+                                    // PieChart
                                     val pieData = field.readable_stats.map {
                                         it.key to ChartItem(
                                             value = it.value.toFloat(),
@@ -117,7 +116,7 @@ fun HomeScreen(
                                     )
                                 }
                                 BlockType.MULTI_SELECT.slug -> {
-                                    // Show BarChart
+                                    // BarChart
                                     val barData = field.readable_stats.map {
                                         it.key to ChartItem(
                                             value = it.value.toFloat(),

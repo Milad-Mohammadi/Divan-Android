@@ -13,6 +13,7 @@ enum class BlockType(val slug: String) {
     FORM_CHARTS("form_charts"),
     DROP_DOWN("dropdown"),
     MULTI_SELECT("multiple_select"),
+    CHOICE("choice"),
     KANBAN("kanban"),
     REPORT("report"),
 }

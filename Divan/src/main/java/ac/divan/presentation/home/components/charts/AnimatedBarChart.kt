@@ -26,13 +26,12 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun AnimatedBarChart(
     modifier: Modifier = Modifier,
-    data: List<Pair<String, ChartItem>>, // Label and Value
+    data: List<Pair<String, ChartItem>>,
     maxBarHeight: Float = 300f,
     animationDuration: Int = 800
 ) {
     val maxValue = data.maxOfOrNull { it.second.value } ?: 1f
 
-    // Normalize bar heights
     val normalizedData = data.map {
         it.first to ChartItem(it.second.value / maxValue * maxBarHeight, it.second.color)
     }
@@ -41,7 +40,6 @@ fun AnimatedBarChart(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.Bottom
     ) {
-        // Vertical Axis Labels
         Column(
             modifier = Modifier.height(maxBarHeight.dp).align(Alignment.Top),
             verticalArrangement = Arrangement.SpaceBetween,
