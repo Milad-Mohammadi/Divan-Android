@@ -12,15 +12,26 @@ import ac.divan.presentation.home.components.ProfileCard
 import ac.divan.presentation.home.components.charts.AnimatedBarChart
 import ac.divan.presentation.home.components.charts.AnimatedPieChart
 import ac.divan.presentation.home.components.charts.ChartItem
+import ac.divan.presentation.home.components.table.TableCell
+import ac.divan.presentation.home.components.table.TableHeaderCell
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -30,6 +41,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import timber.log.Timber
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -39,6 +51,7 @@ fun HomeScreen(
     val state = viewModel.state
     val items: LazyPagingItems<List<RenderedDataItem>> = viewModel.contentPaginatedState.collectAsLazyPagingItems()
     val initialLoading = items.loadState.refresh is LoadState.Loading && items.itemSnapshotList.items.isEmpty()
+    val horizontalTableScrollState = rememberScrollState()
 
     LaunchedEffect(data) {
         viewModel.onEvent(HomeEvent.GetContent(data))
@@ -74,13 +87,51 @@ fun HomeScreen(
                     }
                 }
                 BlockType.TABLE.slug -> {
-                    items(items.itemCount) { index ->
-                        val item = items[index]
-                        item?.let {
-                            ProfileCard(
-                                modifier = Modifier.padding(bottom = 10.dp),
-                                data = item
-                            )
+                    val headers = mutableListOf<String>()
+                    val header = items[0]
+                    header?.forEach { headers.add(it.title) }
+
+                    stickyHeader {
+                        Row(
+                            modifier = Modifier
+                                .background(Color.LightGray)
+                                .fillMaxWidth()
+                                .horizontalScroll(horizontalTableScrollState)
+                        ) {
+                            headers.forEach { header ->
+                                TableHeaderCell(
+                                    text = header,
+                                    modifier = Modifier.width(120.dp)
+                                )
+                            }
+                        }
+                    }
+
+                    item {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .horizontalScroll(horizontalTableScrollState)
+                        ) {
+                            for (index in 0 until items.itemCount) {
+                                val item = items[index]
+                                Row(
+                                    modifier = Modifier
+                                        .background(
+                                            MaterialTheme
+                                                .colorScheme
+                                                .onBackground
+                                                .copy(alpha = if (index % 2 == 0) 0f else 0.1f)
+                                        )
+                                ) {
+                                    item?.forEach {
+                                        TableCell(
+                                            text = it.value ?: "-",
+                                            modifier = Modifier.width(120.dp)
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 }
