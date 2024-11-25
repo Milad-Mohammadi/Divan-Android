@@ -54,7 +54,9 @@ open class HomeViewModel @Inject constructor(
     }
 
     private fun getContentPaginated(slug: String) = viewModelScope.launch {
-        useCases.getBlockContent(slug)
+        _contentPaginatedState.value = PagingData.empty()
+        useCases
+            .getBlockContent(slug)
             .distinctUntilChanged()
             .cachedIn(viewModelScope)
             .collect { _contentPaginatedState.value = it }

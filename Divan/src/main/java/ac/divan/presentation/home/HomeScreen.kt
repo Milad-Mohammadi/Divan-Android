@@ -8,6 +8,8 @@ import ac.divan.presentation.components.text.TextBodyMedium
 import ac.divan.presentation.components.text.TextTitleLarge
 import ac.divan.presentation.components.text.TextTitleMedium
 import ac.divan.presentation.components.text.TextTitleSmall
+import ac.divan.presentation.home.components.Loading
+import ac.divan.presentation.home.components.PaginatedListErrorItem
 import ac.divan.presentation.home.components.ProfileCard
 import ac.divan.presentation.home.components.charts.AnimatedBarChart
 import ac.divan.presentation.home.components.charts.AnimatedPieChart
@@ -38,7 +40,6 @@ import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import timber.log.Timber
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -55,7 +56,6 @@ fun HomeScreen(
 
     LaunchedEffect(data) {
         viewModel.onEvent(HomeEvent.GetContent(data))
-        Timber.i("data updated.")
     }
 
     LazyColumn(
@@ -82,61 +82,169 @@ fun HomeScreen(
                 }
 
                 BlockType.GRID_VIEW.slug -> {
-                    items(items.itemCount) { index ->
-                        val item = items[index]
-                        item?.let {
-                            ProfileCard(
-                                modifier = Modifier.padding(bottom = 10.dp),
-                                data = item
+                    if (initialLoading) {
+                        item {
+                            Loading(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 24.dp)
                             )
+                        }
+                    } else {
+                        items(items.itemCount) { index ->
+                            val item = items[index]
+                            item?.let {
+                                ProfileCard(
+                                    modifier = Modifier.padding(bottom = 10.dp),
+                                    data = item
+                                )
+                            }
+                        }
+
+                        items.apply {
+                            when {
+                                loadState.refresh is LoadState.Loading -> {
+                                    item {
+                                        Loading(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(vertical = 10.dp)
+                                        )
+                                    }
+                                }
+
+                                loadState.refresh is LoadState.Error -> {
+                                    val error = items.loadState.refresh as LoadState.Error
+                                    item {
+                                        PaginatedListErrorItem(
+                                            message = error.error.localizedMessage!!,
+                                            onRetry = { retry() }
+                                        )
+                                    }
+                                }
+
+                                loadState.append is LoadState.Loading -> {
+                                    item {
+                                        Loading(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(vertical = 10.dp)
+                                        )
+                                    }
+                                }
+
+                                loadState.append is LoadState.Error -> {
+                                    val error = items.loadState.append as LoadState.Error
+                                    item {
+                                        PaginatedListErrorItem(
+                                            message = error.error.localizedMessage!!,
+                                            onRetry = { retry() }
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 }
 
                 BlockType.TABLE.slug -> {
-                    val headers = mutableListOf<String>()
-                    val header = items[0]
-                    header?.forEach { headers.add(it.title) }
+                    if (initialLoading) {
+                        item {
+                            Loading(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 24.dp)
+                            )
+                        }
+                    } else {
+                        val headers = mutableListOf<String>()
+                        val header = items[0]
+                        header?.forEach { headers.add(it.title) }
 
-                    stickyHeader {
-                        Row(
-                            modifier = Modifier
-                                .background(Color.LightGray)
-                                .fillMaxWidth()
-                                .horizontalScroll(horizontalTableScrollState)
-                        ) {
-                            headers.forEach { header ->
-                                TableHeaderCell(
-                                    text = header,
-                                    modifier = Modifier.width(120.dp)
-                                )
+                        stickyHeader {
+                            Row(
+                                modifier = Modifier
+                                    .background(Color.LightGray)
+                                    .fillMaxWidth()
+                                    .horizontalScroll(horizontalTableScrollState)
+                            ) {
+                                headers.forEach { header ->
+                                    TableHeaderCell(
+                                        text = header,
+                                        modifier = Modifier.width(120.dp)
+                                    )
+                                }
+                            }
+                        }
+
+                        item {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .horizontalScroll(horizontalTableScrollState)
+                            ) {
+                                for (index in 0 until items.itemCount) {
+                                    val item = items[index]
+                                    Row(
+                                        modifier = Modifier
+                                            .background(
+                                                MaterialTheme
+                                                    .colorScheme
+                                                    .onBackground
+                                                    .copy(alpha = if (index % 2 == 0) 0f else 0.1f)
+                                            )
+                                    ) {
+                                        item?.forEach {
+                                            TableCell(
+                                                text = it.value ?: "-",
+                                                modifier = Modifier.width(120.dp)
+                                            )
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
 
-                    item {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .horizontalScroll(horizontalTableScrollState)
-                        ) {
-                            for (index in 0 until items.itemCount) {
-                                val item = items[index]
-                                Row(
-                                    modifier = Modifier
-                                        .background(
-                                            MaterialTheme
-                                                .colorScheme
-                                                .onBackground
-                                                .copy(alpha = if (index % 2 == 0) 0f else 0.1f)
-                                        )
-                                ) {
-                                    item?.forEach {
-                                        TableCell(
-                                            text = it.value ?: "-",
-                                            modifier = Modifier.width(120.dp)
-                                        )
-                                    }
+                    items.apply {
+                        when {
+                            loadState.refresh is LoadState.Loading -> {
+                                item {
+                                    Loading(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(vertical = 10.dp)
+                                    )
+                                }
+                            }
+
+                            loadState.refresh is LoadState.Error -> {
+                                val error = items.loadState.refresh as LoadState.Error
+                                item {
+                                    PaginatedListErrorItem(
+                                        message = error.error.localizedMessage!!,
+                                        onRetry = { retry() }
+                                    )
+                                }
+                            }
+
+                            loadState.append is LoadState.Loading -> {
+                                item {
+                                    Loading(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(vertical = 10.dp)
+                                    )
+                                }
+                            }
+
+                            loadState.append is LoadState.Error -> {
+                                val error = items.loadState.append as LoadState.Error
+                                item {
+                                    PaginatedListErrorItem(
+                                        message = error.error.localizedMessage!!,
+                                        onRetry = { retry() }
+                                    )
                                 }
                             }
                         }
