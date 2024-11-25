@@ -3,9 +3,7 @@ package ac.divan.presentation.home.components
 import ac.divan.data.remote.dto.content_pagination.RenderedDataItem
 import ac.divan.presentation.components.text.TextBodyMedium
 import ac.divan.presentation.components.text.TextTitleMedium
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -45,24 +43,4 @@ fun SectionLabel(label: String) {
         color = Color.Gray,
         modifier = Modifier.padding(bottom = 4.dp)
     )
-}
-
-@Composable
-fun Chip(
-    text: String,
-    backgroundColor: Color,
-    textColor: Color,
-    onClick: (() -> Unit)? = null
-) {
-    Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(50))
-            .background(backgroundColor)
-            .padding(horizontal = 12.dp, vertical = 6.dp)
-    ) {
-        TextBodyMedium(
-            text = text,
-            color = textColor
-        )
-    }
 }

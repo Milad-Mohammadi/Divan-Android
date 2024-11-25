@@ -40,4 +40,9 @@ data class BlockContent(
     data class BlockSettings(
         val color: Map<String, Map<String, String>>,
     )
+
+    fun getItemColorBySlug(targetSlug: String): String? {
+        if (slug == targetSlug) return this
+        return sub_items?.firstNotNullOfOrNull { it.findItemBySlug(targetSlug) }
+    }
 }

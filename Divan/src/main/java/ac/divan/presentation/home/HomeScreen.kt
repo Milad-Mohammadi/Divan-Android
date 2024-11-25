@@ -73,8 +73,14 @@ fun HomeScreen(
                     }
                 }
 
-                BlockType.PARAGRAPH.slug -> section.content.forEach { item -> item { TextBodyMedium(item.text ?: "", modifier = Modifier.padding(vertical = 10.dp)) } }
-                BlockType.PARAGRAPH.slug -> section.content.forEach { item -> item { TextBodyMedium(item.text ?: "", modifier = Modifier.padding(vertical = 10.dp)) } }
+                BlockType.PARAGRAPH.slug -> {
+                    section.content.forEach { item ->
+                        item {
+                            TextBodyMedium(item.text ?: "", modifier = Modifier.padding(vertical = 10.dp))
+                        }
+                    }
+                }
+
                 BlockType.GRID_VIEW.slug -> {
                     items(items.itemCount) { index ->
                         val item = items[index]
@@ -86,6 +92,7 @@ fun HomeScreen(
                         }
                     }
                 }
+
                 BlockType.TABLE.slug -> {
                     val headers = mutableListOf<String>()
                     val header = items[0]
