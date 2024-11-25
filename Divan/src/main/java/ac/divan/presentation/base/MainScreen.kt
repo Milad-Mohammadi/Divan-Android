@@ -82,7 +82,6 @@ fun MainScreen(menu: Block) {
                                                 coroutineScope.launch { drawerState.close() }
                                                 selectedNavItemSlug = subItem.slug
                                                 selectedNavItemTitle = subItem.title
-                                                // navController.navigateToRootScreen(item.screen)
                                             }
                                         )
                                     }
@@ -99,7 +98,6 @@ fun MainScreen(menu: Block) {
                                             coroutineScope.launch { drawerState.close() }
                                             selectedNavItemSlug = item.slug
                                             selectedNavItemTitle = item.title
-                                            // navController.navigateToRootScreen(item.screen)
                                         }
                                     )
                                 }
