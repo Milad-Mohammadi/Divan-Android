@@ -24,8 +24,8 @@ class ContentPagingSource(
 
             LoadResult.Page(
                 data = items,
-                prevKey = if (data.responseData.previous == null) null else data.responseData.current_page - 1,
-                nextKey = if (data.responseData.next == null) null else data.responseData.current_page + 1
+                prevKey = if (data.responseData.previous == null) null else data.responseData.currentPage - 1,
+                nextKey = if (data.responseData.next == null) null else data.responseData.currentPage + 1
             )
         } catch (exception: Exception) {
             return LoadResult.Error(exception)

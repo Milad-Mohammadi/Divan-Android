@@ -271,7 +271,7 @@ fun HomeScreen(
                                 when (field.type) {
                                     BlockType.DROP_DOWN.slug, BlockType.CHOICE.slug -> {
                                         // PieChart
-                                        val pieData = field.readable_stats.map {
+                                        val pieData = field.readableStats.map {
                                             it.key to ChartItem(
                                                 value = it.value.toFloat(),
                                                 color = block
@@ -290,7 +290,7 @@ fun HomeScreen(
                                     }
                                     BlockType.MULTI_SELECT.slug -> {
                                         // BarChart
-                                        val barData = field.readable_stats.map {
+                                        val barData = field.readableStats.map {
                                             it.key to ChartItem(
                                                 value = it.value.toFloat(),
                                                 color = block
