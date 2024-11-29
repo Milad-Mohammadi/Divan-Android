@@ -57,6 +57,7 @@ fun HomeScreen(
     val horizontalTableScrollState = rememberScrollState()
 
     LaunchedEffect(data) {
+        scrollState.scrollToItem(0)
         viewModel.onEvent(HomeEvent.GetContent(data))
     }
 
