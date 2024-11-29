@@ -63,12 +63,13 @@ open class HomeViewModel @Inject constructor(
     }
 
     private fun getBlock(slug: String) = viewModelScope.launch {
+        state = state.copy(loadingBlocks = true)
         useCases
             .getBlock(slug)
             .onError { _, message -> /* TODO: Handle Error */ }
             .onSuccess {
                 val newBlocks = state.blocks.plus(it.responseData)
-                state = state.copy(blocks = newBlocks)
+                state = state.copy(blocks = newBlocks, loadingBlocks = false)
             }
     }
 }

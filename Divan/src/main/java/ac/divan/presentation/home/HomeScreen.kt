@@ -251,52 +251,62 @@ fun HomeScreen(
             }
         }
 
-        state.blocks.forEach { block ->
-            when (block.block.type) {
-                BlockType.FORM_CHARTS.slug -> {
-                    val fields = block.block.form.stats.fields
-                    fields.forEach { field ->
-                        item {
-                            TextBodyLarge(text = field.title, modifier = Modifier.padding(top = 10.dp, bottom = 4.dp))
+        if (state.loadingBlocks) {
+            item {
+                Loading(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 24.dp)
+                )
+            }
+        } else {
+            state.blocks.forEach { block ->
+                when (block.block.type) {
+                    BlockType.FORM_CHARTS.slug -> {
+                        val fields = block.block.form.stats.fields
+                        fields.forEach { field ->
+                            item {
+                                TextBodyLarge(text = field.title, modifier = Modifier.padding(top = 10.dp, bottom = 4.dp))
 
-                            when (field.type) {
-                                BlockType.DROP_DOWN.slug, BlockType.CHOICE.slug -> {
-                                    // PieChart
-                                    val pieData = field.readable_stats.map {
-                                        it.key to ChartItem(
-                                            value = it.value.toFloat(),
-                                            color = block
-                                                .block
-                                                .settings
-                                                .color[field.slug]?.get(it.key) ?: ""
+                                when (field.type) {
+                                    BlockType.DROP_DOWN.slug, BlockType.CHOICE.slug -> {
+                                        // PieChart
+                                        val pieData = field.readable_stats.map {
+                                            it.key to ChartItem(
+                                                value = it.value.toFloat(),
+                                                color = block
+                                                    .block
+                                                    .settings
+                                                    .color[field.slug]?.get(it.key) ?: ""
+                                            )
+                                        }
+
+                                        AnimatedPieChart(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(16.dp),
+                                            data = pieData
                                         )
                                     }
+                                    BlockType.MULTI_SELECT.slug -> {
+                                        // BarChart
+                                        val barData = field.readable_stats.map {
+                                            it.key to ChartItem(
+                                                value = it.value.toFloat(),
+                                                color = block
+                                                    .block
+                                                    .settings
+                                                    .color[field.slug]?.get(it.key) ?: ""
+                                            )
+                                        }
 
-                                    AnimatedPieChart(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(16.dp),
-                                        data = pieData
-                                    )
-                                }
-                                BlockType.MULTI_SELECT.slug -> {
-                                    // BarChart
-                                    val barData = field.readable_stats.map {
-                                        it.key to ChartItem(
-                                            value = it.value.toFloat(),
-                                            color = block
-                                                .block
-                                                .settings
-                                                .color[field.slug]?.get(it.key) ?: ""
+                                        AnimatedBarChart(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(16.dp),
+                                            data = barData
                                         )
                                     }
-
-                                    AnimatedBarChart(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(16.dp),
-                                        data = barData
-                                    )
                                 }
                             }
                         }
