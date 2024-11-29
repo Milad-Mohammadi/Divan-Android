@@ -159,6 +159,7 @@ fun HomeScreen(
                         stickyHeader {
                             Row(
                                 modifier = Modifier
+                                    .background(MaterialTheme.colorScheme.background)
                                     .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
                                     .background(Color.LightGray)
                                     .border(
