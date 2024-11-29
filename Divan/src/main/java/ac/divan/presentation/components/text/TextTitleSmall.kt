@@ -1,7 +1,6 @@
 package ac.divan.presentation.components.text
 
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,14 +18,14 @@ fun TextTitleSmall(
     overflow: TextOverflow = TextOverflow.Clip,
     maxLines: Int = Int.MAX_VALUE
 ) {
-    Text(
+    TextBase(
         text = text,
         modifier = modifier,
+        color = color,
+        textAlign = textAlign,
         fontFamily = MaterialTheme.typography.titleSmall.fontFamily,
         fontSize = MaterialTheme.typography.titleSmall.fontSize,
         fontWeight = fontWeight,
-        textAlign = textAlign,
-        color = color,
         overflow = overflow,
         maxLines = maxLines
     )
