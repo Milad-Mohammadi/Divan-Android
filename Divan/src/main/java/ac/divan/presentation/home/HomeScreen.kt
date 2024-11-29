@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -51,7 +52,8 @@ fun HomeScreen(
 ) {
     val state = viewModel.state
     val items: LazyPagingItems<List<RenderedDataItem>> = viewModel.contentPaginatedState.collectAsLazyPagingItems()
-    val initialLoading = items.loadState.refresh is LoadState.Loading && items.itemSnapshotList.items.isEmpty()
+    val initialLoading = items.loadState.refresh is LoadState.Loading
+    val scrollState = rememberLazyListState()
     val horizontalTableScrollState = rememberScrollState()
 
     LaunchedEffect(data) {
@@ -61,7 +63,8 @@ fun HomeScreen(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(2.dp),
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(16.dp),
+        state = scrollState
     ) {
         state.sections.forEach { section ->
             when (section.type) {
@@ -103,16 +106,6 @@ fun HomeScreen(
 
                         items.apply {
                             when {
-                                loadState.refresh is LoadState.Loading -> {
-                                    item {
-                                        Loading(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(vertical = 10.dp)
-                                        )
-                                    }
-                                }
-
                                 loadState.refresh is LoadState.Error -> {
                                     val error = items.loadState.refresh as LoadState.Error
                                     item {
@@ -208,16 +201,6 @@ fun HomeScreen(
 
                     items.apply {
                         when {
-                            loadState.refresh is LoadState.Loading -> {
-                                item {
-                                    Loading(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(vertical = 10.dp)
-                                    )
-                                }
-                            }
-
                             loadState.refresh is LoadState.Error -> {
                                 val error = items.loadState.refresh as LoadState.Error
                                 item {
