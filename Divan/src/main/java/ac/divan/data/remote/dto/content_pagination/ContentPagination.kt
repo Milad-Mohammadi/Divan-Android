@@ -15,7 +15,11 @@ data class ContentPagination(
         return objects.map { renderedObject ->
             columns.mapNotNull { column ->
                 renderedObject.rendered_data[column.slug]?.let { dataItem ->
-                    RenderedDataItem(title = column.title, value = dataItem.value)
+                    RenderedDataItem(
+                        title = column.title,
+                        value = dataItem.value,
+                        type = dataItem.type
+                    )
                 }
             }
         }

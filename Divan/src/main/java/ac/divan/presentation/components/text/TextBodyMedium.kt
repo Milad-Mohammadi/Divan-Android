@@ -1,14 +1,12 @@
 package ac.divan.presentation.components.text
 
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun TextBodyMedium(
@@ -20,16 +18,15 @@ fun TextBodyMedium(
     overflow: TextOverflow = TextOverflow.Clip,
     maxLines: Int = Int.MAX_VALUE
 ) {
-    Text(
+    TextBase(
         text = text,
         modifier = modifier,
+        color = color,
+        textAlign = textAlign,
         fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
         fontSize = MaterialTheme.typography.bodyMedium.fontSize,
         fontWeight = fontWeight,
-        textAlign = textAlign,
-        color = color,
         overflow = overflow,
-        maxLines = maxLines,
-        lineHeight = (MaterialTheme.typography.bodyMedium.fontSize.value + 6).sp
+        maxLines = maxLines
     )
 }
