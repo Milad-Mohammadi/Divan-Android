@@ -204,7 +204,7 @@ fun HomeScreen(
                                     ) {
                                         item?.forEach {
                                             TableCell(
-                                                text = it.value ?: "-",
+                                                item = it,
                                                 modifier = Modifier.width(120.dp)
                                             )
                                         }

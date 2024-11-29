@@ -20,6 +20,7 @@ data class ContentPagination(
                     RenderedDataItem(
                         title = column.title,
                         value = dataItem.value,
+                        rawValue = dataItem.rawValue,
                         type = dataItem.type
                     )
                 }
