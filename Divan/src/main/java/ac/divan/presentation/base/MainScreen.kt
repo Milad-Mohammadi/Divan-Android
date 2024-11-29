@@ -72,7 +72,7 @@ fun MainScreen(menu: Block) {
                             BlockType.GROUP.slug -> {
                                 item {
                                     TextBodySmall(item.title, modifier = Modifier.padding(16.dp).alpha(0.7f))
-                                    item.sub_items?.forEachIndexed { _, subItem ->
+                                    item.subItems?.forEachIndexed { _, subItem ->
                                         NavDrawerItem(
                                             slug = subItem.slug,
                                             icon = subItem.icon,

@@ -1,5 +1,7 @@
 package ac.divan.data.remote.dto.block
 
+import com.google.gson.annotations.SerializedName
+
 data class BlockContent(
     val items: List<BlockItem>,
     val form: BlockForm,
@@ -12,11 +14,11 @@ data class BlockContent(
         val title: String,
         val type: String,
         var content: List<Content>,
-        var sub_items: List<BlockItem>? = null
+        @SerializedName("sub_items") var subItems: List<BlockItem>? = null
     ) {
         fun findItemBySlug(targetSlug: String): BlockItem? {
             if (this.slug == targetSlug) return this
-            return sub_items?.firstNotNullOfOrNull { it.findItemBySlug(targetSlug) }
+            return subItems?.firstNotNullOfOrNull { it.findItemBySlug(targetSlug) }
         }
     }
 
@@ -34,7 +36,7 @@ data class BlockContent(
         val slug: String,
         val type: String,
         val title: String,
-        val readable_stats: Map<String, Int>,
+        @SerializedName("readable_stats") val readableStats: Map<String, Int>,
     )
 
     data class BlockSettings(

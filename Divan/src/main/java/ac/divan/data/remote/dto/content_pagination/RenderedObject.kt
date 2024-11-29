@@ -1,5 +1,7 @@
 package ac.divan.data.remote.dto.content_pagination
 
+import com.google.gson.annotations.SerializedName
+
 data class RenderedObject(
-    val rendered_data: Map<String, RenderedDataItem>
+    @SerializedName("rendered_data") val renderedData: Map<String, RenderedDataItem>
 )
