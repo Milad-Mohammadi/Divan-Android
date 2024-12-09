@@ -18,6 +18,7 @@ import ac.divan.presentation.home.components.table.TableCell
 import ac.divan.presentation.home.components.table.TableHeaderCell
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,11 +30,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -263,46 +266,56 @@ fun HomeScreen(
                         val fields = block.block.form.stats.fields
                         fields.forEach { field ->
                             item {
-                                TextBodyLarge(text = field.title, modifier = Modifier.padding(top = 10.dp, bottom = 4.dp))
+                                Column(
+                                    modifier = Modifier
+                                        .padding(vertical = 8.dp)
+                                        .fillMaxWidth()
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .background(MaterialTheme.colorScheme.onBackground.copy(0.05f))
+                                        .border(width = 1.dp, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f), shape = RoundedCornerShape(10.dp))
+                                        .padding(16.dp)
+                                ) {
+                                    TextBodyLarge(text = field.title)
 
-                                when (field.type) {
-                                    BlockType.DROP_DOWN.slug, BlockType.CHOICE.slug -> {
-                                        // PieChart
-                                        val pieData = field.readableStats.map {
-                                            it.key to ChartItem(
-                                                value = it.value.toFloat(),
-                                                color = block
-                                                    .block
-                                                    .settings
-                                                    .color[field.slug]?.get(it.key) ?: ""
+                                    when (field.type) {
+                                        BlockType.DROP_DOWN.slug, BlockType.CHOICE.slug -> {
+                                            // PieChart
+                                            val pieData = field.readableStats.map {
+                                                it.key to ChartItem(
+                                                    value = it.value.toFloat(),
+                                                    color = block
+                                                        .block
+                                                        .settings
+                                                        .color[field.slug]?.get(it.key) ?: ""
+                                                )
+                                            }
+
+                                            AnimatedPieChart(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(horizontal = 16.dp),
+                                                data = pieData
                                             )
                                         }
+                                        BlockType.MULTI_SELECT.slug -> {
+                                            // BarChart
+                                            val barData = field.readableStats.map {
+                                                it.key to ChartItem(
+                                                    value = it.value.toFloat(),
+                                                    color = block
+                                                        .block
+                                                        .settings
+                                                        .color[field.slug]?.get(it.key) ?: ""
+                                                )
+                                            }
 
-                                        AnimatedPieChart(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(16.dp),
-                                            data = pieData
-                                        )
-                                    }
-                                    BlockType.MULTI_SELECT.slug -> {
-                                        // BarChart
-                                        val barData = field.readableStats.map {
-                                            it.key to ChartItem(
-                                                value = it.value.toFloat(),
-                                                color = block
-                                                    .block
-                                                    .settings
-                                                    .color[field.slug]?.get(it.key) ?: ""
+                                            AnimatedBarChart(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(16.dp),
+                                                data = barData
                                             )
                                         }
-
-                                        AnimatedBarChart(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(16.dp),
-                                            data = barData
-                                        )
                                     }
                                 }
                             }
