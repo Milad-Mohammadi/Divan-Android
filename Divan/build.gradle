@@ -22,7 +22,7 @@ android {
     defaultConfig {
         applicationId "ac.divan"
         minSdk 25
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "0.0.1"
     }
