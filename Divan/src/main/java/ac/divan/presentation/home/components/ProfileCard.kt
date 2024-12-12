@@ -3,6 +3,7 @@ package ac.divan.presentation.home.components
 import ac.divan.data.remote.dto.content_pagination.RenderedDataItem
 import ac.divan.presentation.components.text.TextBodyMedium
 import ac.divan.presentation.components.text.TextTitleMedium
+import ac.divan.ui.theme.Dimens
 import ac.divan.util.extensions.containsImageUrl
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -26,9 +27,15 @@ fun ProfileCard(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(10.dp))
-            .border(width = 1.dp, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f), shape = RoundedCornerShape(10.dp))
-            .padding(16.dp)
+            .clip(RoundedCornerShape(Dimens.normal))
+            .border(
+                width = Dimens.extraSmall,
+                color = MaterialTheme
+                    .colorScheme
+                    .onBackground.copy(alpha = 0.3f),
+                shape = RoundedCornerShape(Dimens.normal)
+            )
+            .padding(Dimens.medium)
     ) {
         data.forEach { item ->
             if ((item.value ?: "").containsImageUrl()) {
@@ -38,13 +45,16 @@ fun ProfileCard(
                     contentScale = ContentScale.FillWidth,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(12.dp)),
+                        .clip(RoundedCornerShape(Dimens.normal.value.plus(2).dp)),
                     placeholder = null,
                     error = null
                 )
             } else if (item.value.isNullOrBlank().not()) {
                 SectionLabel(label = item.title)
-                TextTitleMedium(text = item.value.toString(), modifier = Modifier.padding(bottom = 4.dp))
+                TextTitleMedium(
+                    text = item.value.toString(),
+                    modifier = Modifier.padding(bottom = Dimens.smaller)
+                )
             }
         }
     }
@@ -55,6 +65,6 @@ fun SectionLabel(label: String) {
     TextBodyMedium(
         text = label,
         color = Color.Gray,
-        modifier = Modifier.padding(bottom = 4.dp)
+        modifier = Modifier.padding(bottom = Dimens.smaller)
     )
 }

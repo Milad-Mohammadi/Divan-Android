@@ -1,5 +1,6 @@
 package ac.divan.presentation.home.components.charts
 
+import ac.divan.ui.theme.Dimens
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -41,7 +42,7 @@ fun AnimatedBarChart(
 
     // Calculate bar width dynamically based on the available screen width
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val barSpacing = 8.dp
+    val barSpacing = Dimens.normal
     val totalBarSpacing = ((data.size - 1) * barSpacing.value).dp // Total spacing between bars
     val barWidth = (screenWidth - totalBarSpacing) / data.size  // Dynamic width for each bar
 
@@ -62,7 +63,7 @@ fun AnimatedBarChart(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(maxBarHeight.dp)
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = Dimens.medium),
                 verticalAlignment = Alignment.Bottom,
                 horizontalArrangement = Arrangement.spacedBy(0.dp)  // No fixed spacing, dynamic width handles the spacing
             ) {
@@ -85,7 +86,7 @@ fun AnimatedBarChart(
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(Dimens.medium))
 
         // Labels
         ChartLabels(data)
@@ -115,8 +116,8 @@ fun DrawScope.drawAxisAndGridLines(maxValue: Float) {
         val axisValue = (maxValue - (maxValue * (i / maxValue))).toInt()
         drawContext.canvas.nativeCanvas.drawText(
             axisValue.toString(),
-            4.dp.toPx(),
-            yPos - 4.dp.toPx(),
+            Dimens.smaller.toPx(),
+            yPos - Dimens.smaller.toPx(),
             android.graphics.Paint().apply {
                 textSize = 12.sp.toPx()
                 color = lineColor.toArgb()

@@ -1,6 +1,7 @@
 package ac.divan.presentation.components.button
 
 import ac.divan.presentation.components.text.TextBodyMedium
+import ac.divan.ui.theme.Dimens
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -18,7 +19,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 
 @Composable
 fun ButtonTextSmall(
@@ -31,9 +31,9 @@ fun ButtonTextSmall(
 ) {
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(Dimens.normal))
             .clickable { if (enabled) onClick() }
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = Dimens.medium, vertical = Dimens.normal),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -46,12 +46,12 @@ fun ButtonTextSmall(
         }
 
         icon?.let {
-            if (text.isNotBlank()) Spacer(modifier = Modifier.width(8.dp))
+            if (text.isNotBlank()) Spacer(modifier = Modifier.width(Dimens.normal))
 
             Icon(
                 painter = it,
                 contentDescription = null,
-                modifier = Modifier.size(16.dp),
+                modifier = Modifier.size(Dimens.medium),
                 tint = color.copy(alpha = if (enabled) 1.0F else 0.6F)
             )
         }

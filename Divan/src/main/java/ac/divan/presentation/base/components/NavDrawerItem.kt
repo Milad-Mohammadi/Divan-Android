@@ -1,6 +1,7 @@
 package ac.divan.presentation.base.components
 
 import ac.divan.presentation.components.text.TextBodyMedium
+import ac.divan.ui.theme.Dimens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
 @Composable
@@ -27,8 +27,8 @@ fun NavDrawerItem(
     modifier: Modifier = Modifier
 ) {
     NavigationDrawerItem(
-        modifier = modifier.padding(horizontal = 8.dp),
-        shape = RoundedCornerShape(8.dp),
+        modifier = modifier.padding(horizontal = Dimens.normal),
+        shape = RoundedCornerShape(Dimens.normal),
         colors = NavigationDrawerItemDefaults
             .colors(
                 selectedContainerColor = MaterialTheme
@@ -39,7 +39,7 @@ fun NavDrawerItem(
         label = {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                horizontalArrangement = Arrangement.spacedBy(Dimens.smaller),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 icon?.let {
