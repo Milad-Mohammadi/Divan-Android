@@ -10,10 +10,8 @@ private val colorPalette = darkColorScheme(
     surface = Surface,
     surfaceTint = SurfaceTint,
     onPrimary = OnPrimary,
-    onSecondary = OnSecondary,
     onBackground = OnBackground,
     onSurface = OnSurface,
-    onSurfaceVariant = Body,
     outline = PlaceHolder
 )
 
