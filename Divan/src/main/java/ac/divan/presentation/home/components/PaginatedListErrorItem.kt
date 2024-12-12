@@ -3,6 +3,7 @@ package ac.divan.presentation.home.components
 import ac.divan.R
 import ac.divan.presentation.components.button.ButtonOutlineSmall
 import ac.divan.presentation.components.text.TextBodySmall
+import ac.divan.ui.theme.Dimens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,9 +23,9 @@ fun PaginatedListErrorItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(Dimens.normal),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(Dimens.normal)
     ) {
         TextBodySmall(text = message, modifier = Modifier.weight(1F))
         ButtonOutlineSmall(

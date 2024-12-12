@@ -2,6 +2,7 @@ package ac.divan.presentation.home.components.table
 
 import ac.divan.data.remote.dto.content_pagination.RenderedDataItem
 import ac.divan.presentation.components.text.TextBodyMedium
+import ac.divan.ui.theme.Dimens
 import ac.divan.util.extensions.containsImageUrl
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
@@ -18,7 +19,7 @@ import coil.compose.AsyncImage
 @Composable
 fun TableCell(item: RenderedDataItem, modifier: Modifier = Modifier) {
     Box(
-        modifier = modifier.padding(8.dp)
+        modifier = modifier.padding(Dimens.normal)
     ) {
         if ((item.value ?: "").containsImageUrl()) {
             AsyncImage(
@@ -27,7 +28,7 @@ fun TableCell(item: RenderedDataItem, modifier: Modifier = Modifier) {
                 contentScale = ContentScale.FillHeight,
                 modifier = Modifier
                     .height(30.dp)
-                    .clip(RoundedCornerShape(4.dp)),
+                    .clip(RoundedCornerShape(Dimens.smaller)),
                 placeholder = null,
                 error = null
             )

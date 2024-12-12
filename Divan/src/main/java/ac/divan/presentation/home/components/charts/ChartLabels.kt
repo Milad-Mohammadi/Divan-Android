@@ -1,6 +1,7 @@
 package ac.divan.presentation.home.components.charts
 
 import ac.divan.presentation.components.text.TextBodyMedium
+import ac.divan.ui.theme.Dimens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,13 +26,13 @@ fun ChartLabels(
 ) {
     FlowRow(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(Dimens.normal),
+        verticalArrangement = Arrangement.spacedBy(Dimens.normal)
     ) {
         data.forEach {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(Dimens.smaller)
             ) {
                 Box(
                     modifier = Modifier

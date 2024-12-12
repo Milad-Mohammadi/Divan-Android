@@ -2,6 +2,7 @@ package ac.divan.presentation.components.button
 
 import ac.divan.R
 import ac.divan.presentation.components.text.TextBodySmall
+import ac.divan.ui.theme.Dimens
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,8 +36,8 @@ fun ButtonOutlineSmall2(
 ) {
     Row(
         modifier = modifier
-            .border(width = 1.5.dp, color = color, shape = RoundedCornerShape(8.dp))
-            .clip(RoundedCornerShape(8.dp))
+            .border(width = 1.5.dp, color = color, shape = RoundedCornerShape(Dimens.normal))
+            .clip(RoundedCornerShape(Dimens.normal))
             .clickable { if (enabled) onClick() }
             .padding(horizontal = 12.dp, vertical = 6.dp),
         horizontalArrangement = Arrangement.Center,
@@ -50,7 +51,7 @@ fun ButtonOutlineSmall2(
         }
 
         icon?.let {
-            if (text.isNotBlank()) Spacer(modifier = Modifier.width(4.dp))
+            if (text.isNotBlank()) Spacer(modifier = Modifier.width(Dimens.smaller))
 
             Icon(
                 painter = it,

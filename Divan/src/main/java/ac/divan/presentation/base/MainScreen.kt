@@ -7,9 +7,12 @@ import ac.divan.navigation.NavGraph
 import ac.divan.presentation.base.components.NavDrawerItem
 import ac.divan.presentation.components.text.TextBodySmall
 import ac.divan.presentation.components.text.TextTitleLarge
+import ac.divan.ui.theme.Dimens
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -38,7 +41,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -64,14 +69,19 @@ fun MainScreen(menu: Block) {
             ) {
                 LazyColumn {
                     item {
-                        TextTitleLarge(stringResource(R.string.app_name), modifier = Modifier.padding(16.dp))
+                        Image(
+                            painter = painterResource(R.drawable.ic_logo_drawer),
+                            modifier = Modifier.height(Dimens.huge),
+                            contentDescription = stringResource(R.string.app_name),
+                            contentScale = ContentScale.Crop
+                        )
                     }
 
                     navItems.forEachIndexed { _, item ->
                         when (item.type) {
                             BlockType.GROUP.slug -> {
                                 item {
-                                    TextBodySmall(item.title, modifier = Modifier.padding(16.dp).alpha(0.7f))
+                                    TextBodySmall(item.title, modifier = Modifier.padding(Dimens.medium).alpha(0.7f))
                                     item.subItems?.forEachIndexed { _, subItem ->
                                         NavDrawerItem(
                                             slug = subItem.slug,
@@ -115,7 +125,7 @@ fun MainScreen(menu: Block) {
 
             topBar = {
                 CenterAlignedTopAppBar(
-                    modifier = Modifier.padding(8.dp).clip(RoundedCornerShape(16.dp)),
+                    modifier = Modifier.padding(Dimens.normal).clip(RoundedCornerShape(Dimens.medium)),
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
                         titleContentColor = MaterialTheme.colorScheme.onBackground,
@@ -135,7 +145,7 @@ fun MainScreen(menu: Block) {
                             content = {
                                 Icon(
                                     imageVector = Icons.Filled.Menu,
-                                    contentDescription = "Localized description"
+                                    contentDescription = selectedNavItemTitle
                                 )
                             }
                         )

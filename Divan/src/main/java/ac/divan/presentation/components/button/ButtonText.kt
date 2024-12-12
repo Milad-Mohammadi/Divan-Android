@@ -1,6 +1,7 @@
 package ac.divan.presentation.components.button
 
 import ac.divan.presentation.components.text.TextBodyLarge
+import ac.divan.ui.theme.Dimens
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -30,9 +31,9 @@ fun ButtonText(
 ) {
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(Dimens.normal))
             .clickable { if (enabled) onClick() }
-            .padding(horizontal = 24.dp, vertical = 12.dp),
+            .padding(horizontal = Dimens.large, vertical = 12.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -44,12 +45,12 @@ fun ButtonText(
         }
 
         icon?.let {
-            if (text.isNotBlank()) Spacer(modifier = Modifier.width(8.dp))
+            if (text.isNotBlank()) Spacer(modifier = Modifier.width(Dimens.normal))
 
             Icon(
                 imageVector = it,
                 contentDescription = null,
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier.size(Dimens.large),
                 tint = color.copy(alpha = if (enabled) 1.0F else 0.6F)
             )
         }

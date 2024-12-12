@@ -1,5 +1,6 @@
 package ac.divan.presentation.home.components
 
+import ac.divan.ui.theme.Dimens
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
@@ -12,7 +13,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun Loading(
     modifier: Modifier = Modifier,
-    size: Dp = 36.dp
+    size: Dp = Dimens.larger
 ) {
     Box(
         modifier = modifier,

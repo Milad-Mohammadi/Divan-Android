@@ -1,5 +1,6 @@
 package ac.divan.presentation.components.button
 
+import ac.divan.ui.theme.Dimens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -15,7 +16,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 
 @Composable
 fun ButtonIcon(
@@ -24,7 +24,7 @@ fun ButtonIcon(
     icon: Painter,
     backgroundColor: Color = MaterialTheme.colorScheme.primary,
     iconColor: Color = MaterialTheme.colorScheme.onPrimary,
-    radius: Dp = 16.dp,
+    radius: Dp = Dimens.medium,
     onClick: () -> Unit
 ) {
     Box(
@@ -32,13 +32,13 @@ fun ButtonIcon(
             .clip(RoundedCornerShape(radius))
             .background(backgroundColor.copy(alpha = if (enabled) 1.0F else 0.6F))
             .clickable { if (enabled) onClick() }
-            .padding(8.dp),
+            .padding(Dimens.normal),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
             painter = icon,
             contentDescription = null,
-            modifier = Modifier.size(24.dp),
+            modifier = Modifier.size(Dimens.large),
             tint = iconColor.copy(alpha = if (enabled) 1.0F else 0.6F)
         )
     }

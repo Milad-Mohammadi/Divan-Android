@@ -1,6 +1,7 @@
 package ac.divan.presentation.components.button
 
 import ac.divan.presentation.components.text.TextBodySmall
+import ac.divan.ui.theme.Dimens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +33,7 @@ fun ButtonPrimarySmall2(
 ) {
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(Dimens.normal))
             .background(color.copy(alpha = if (enabled) 1.0F else 0.6F))
             .clickable { if (enabled) onClick() }
             .padding(horizontal = 12.dp, vertical = 6.dp),
@@ -47,7 +48,7 @@ fun ButtonPrimarySmall2(
         }
 
         icon?.let {
-            if (text.isNotBlank()) Spacer(modifier = Modifier.width(4.dp))
+            if (text.isNotBlank()) Spacer(modifier = Modifier.width(Dimens.smaller))
 
             Icon(
                 painter = it,

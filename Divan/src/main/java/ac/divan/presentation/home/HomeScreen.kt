@@ -16,6 +16,7 @@ import ac.divan.presentation.home.components.charts.AnimatedPieChart
 import ac.divan.presentation.home.components.charts.ChartItem
 import ac.divan.presentation.home.components.table.TableCell
 import ac.divan.presentation.home.components.table.TableHeaderCell
+import ac.divan.ui.theme.Dimens
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -37,7 +38,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.paging.LoadState
@@ -65,7 +65,7 @@ fun HomeScreen(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(Dimens.medium),
         state = scrollState
     ) {
         state.sections.forEach { section ->
@@ -81,7 +81,7 @@ fun HomeScreen(
                 BlockType.PARAGRAPH.slug -> {
                     section.content.forEach { item ->
                         item {
-                            TextBodyMedium(item.text ?: "", modifier = Modifier.padding(vertical = 10.dp))
+                            TextBodyMedium(item.text ?: "", modifier = Modifier.padding(vertical = Dimens.normal))
                         }
                     }
                 }
@@ -92,7 +92,7 @@ fun HomeScreen(
                             Loading(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(vertical = 24.dp)
+                                    .padding(vertical = Dimens.large)
                             )
                         }
                     } else {
@@ -100,7 +100,7 @@ fun HomeScreen(
                             val item = items[index]
                             item?.let {
                                 ProfileCard(
-                                    modifier = Modifier.padding(bottom = 10.dp),
+                                    modifier = Modifier.padding(bottom = Dimens.normal),
                                     data = item
                                 )
                             }
@@ -123,7 +123,7 @@ fun HomeScreen(
                                         Loading(
                                             modifier = Modifier
                                                 .fillMaxWidth()
-                                                .padding(vertical = 10.dp)
+                                                .padding(vertical = Dimens.normal)
                                         )
                                     }
                                 }
@@ -148,7 +148,7 @@ fun HomeScreen(
                             Loading(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(vertical = 24.dp)
+                                    .padding(vertical = Dimens.large)
                             )
                         }
                     } else {
@@ -170,14 +170,14 @@ fun HomeScreen(
                                     headers.forEach { header ->
                                         TableHeaderCell(
                                             text = header,
-                                            modifier = Modifier.width(120.dp)
+                                            modifier = Modifier.width(Dimens.huge)
                                         )
                                     }
                                 }
 
                                 Divider(
                                     modifier = Modifier.fillMaxWidth(),
-                                    thickness = 1.dp,
+                                    thickness = Dimens.extraSmall,
                                     color = MaterialTheme.colorScheme.onBackground.copy(alpha=0.2f)
                                 )
                             }
@@ -199,14 +199,14 @@ fun HomeScreen(
                                         item?.forEach {
                                             TableCell(
                                                 item = it,
-                                                modifier = Modifier.width(120.dp)
+                                                modifier = Modifier.width(Dimens.huge)
                                             )
                                         }
                                     }
 
                                     Divider(
                                         modifier = Modifier.fillMaxWidth(),
-                                        thickness = 1.dp,
+                                        thickness = Dimens.extraSmall,
                                         color = MaterialTheme.colorScheme.onBackground.copy(alpha=0.2f)
                                     )
                                 }
@@ -231,7 +231,7 @@ fun HomeScreen(
                                     Loading(
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .padding(vertical = 10.dp)
+                                            .padding(vertical = Dimens.normal)
                                     )
                                 }
                             }
@@ -256,7 +256,7 @@ fun HomeScreen(
                 Loading(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 24.dp)
+                        .padding(vertical = Dimens.large)
                 )
             }
         } else {
@@ -268,12 +268,19 @@ fun HomeScreen(
                             item {
                                 Column(
                                     modifier = Modifier
-                                        .padding(vertical = 8.dp)
+                                        .padding(vertical = Dimens.normal)
                                         .fillMaxWidth()
-                                        .clip(RoundedCornerShape(10.dp))
+                                        .clip(RoundedCornerShape(Dimens.normal))
                                         .background(MaterialTheme.colorScheme.onBackground.copy(0.05f))
-                                        .border(width = 1.dp, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f), shape = RoundedCornerShape(10.dp))
-                                        .padding(16.dp)
+                                        .border(
+                                            width = Dimens.extraSmall,
+                                            color = MaterialTheme
+                                                .colorScheme
+                                                .onBackground
+                                                .copy(alpha = 0.3f),
+                                            shape = RoundedCornerShape(Dimens.normal)
+                                        )
+                                        .padding(Dimens.medium)
                                 ) {
                                     TextBodyLarge(text = field.title)
 
@@ -293,7 +300,7 @@ fun HomeScreen(
                                             AnimatedPieChart(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .padding(horizontal = 16.dp),
+                                                    .padding(horizontal = Dimens.medium),
                                                 data = pieData
                                             )
                                         }
@@ -312,7 +319,7 @@ fun HomeScreen(
                                             AnimatedBarChart(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .padding(16.dp),
+                                                    .padding(Dimens.medium),
                                                 data = barData
                                             )
                                         }
