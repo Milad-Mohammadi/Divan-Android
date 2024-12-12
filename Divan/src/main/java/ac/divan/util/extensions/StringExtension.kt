@@ -56,3 +56,8 @@ fun String.containsUrl(): Boolean {
     val urlRegex = "(https?://\\S+)".toRegex()
     return urlRegex.containsMatchIn(this)
 }
+
+fun String.containsImageUrl(): Boolean {
+    val fileUrlRegex = "(https?://\\S+\\.(jpg|jpeg|png|gif|bmp|webp|svg))".toRegex(RegexOption.IGNORE_CASE)
+    return fileUrlRegex.containsMatchIn(this)
+}

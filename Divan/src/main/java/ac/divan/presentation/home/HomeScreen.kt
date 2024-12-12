@@ -31,12 +31,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -157,25 +157,29 @@ fun HomeScreen(
                         header?.forEach { headers.add(it.title) }
 
                         stickyHeader {
-                            Row(
+                            Column(
                                 modifier = Modifier
-                                    .background(MaterialTheme.colorScheme.background)
-                                    .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
-                                    .background(Color.LightGray)
-                                    .border(
-                                        width = 1.dp,
-                                        shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
-                                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
-                                    )
+                                    .background(MaterialTheme.colorScheme.surface)
                                     .fillMaxWidth()
-                                    .horizontalScroll(horizontalTableScrollState)
                             ) {
-                                headers.forEach { header ->
-                                    TableHeaderCell(
-                                        text = header,
-                                        modifier = Modifier.width(120.dp)
-                                    )
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .horizontalScroll(horizontalTableScrollState)
+                                ) {
+                                    headers.forEach { header ->
+                                        TableHeaderCell(
+                                            text = header,
+                                            modifier = Modifier.width(120.dp)
+                                        )
+                                    }
                                 }
+
+                                Divider(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    thickness = 1.dp,
+                                    color = MaterialTheme.colorScheme.onBackground.copy(alpha=0.2f)
+                                )
                             }
                         }
 
@@ -183,32 +187,28 @@ fun HomeScreen(
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .clip(RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp))
-                                    .border(
-                                        width = 1.dp,
-                                        shape = RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp),
-                                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
-                                    )
-                                    .horizontalScroll(horizontalTableScrollState)
+                                    .background(MaterialTheme.colorScheme.background)
                             ) {
                                 for (index in 0 until items.itemCount) {
                                     val item = items[index]
                                     Row(
                                         modifier = Modifier
-                                            .background(
-                                                MaterialTheme
-                                                    .colorScheme
-                                                    .onBackground
-                                                    .copy(alpha = if (index % 2 == 0) 0f else 0.1f)
-                                            )
+                                            .fillMaxWidth()
+                                            .horizontalScroll(horizontalTableScrollState)
                                     ) {
                                         item?.forEach {
                                             TableCell(
-                                                text = it.value ?: "-",
+                                                item = it,
                                                 modifier = Modifier.width(120.dp)
                                             )
                                         }
                                     }
+
+                                    Divider(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        thickness = 1.dp,
+                                        color = MaterialTheme.colorScheme.onBackground.copy(alpha=0.2f)
+                                    )
                                 }
                             }
                         }
@@ -266,46 +266,56 @@ fun HomeScreen(
                         val fields = block.block.form.stats.fields
                         fields.forEach { field ->
                             item {
-                                TextBodyLarge(text = field.title, modifier = Modifier.padding(top = 10.dp, bottom = 4.dp))
+                                Column(
+                                    modifier = Modifier
+                                        .padding(vertical = 8.dp)
+                                        .fillMaxWidth()
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .background(MaterialTheme.colorScheme.onBackground.copy(0.05f))
+                                        .border(width = 1.dp, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f), shape = RoundedCornerShape(10.dp))
+                                        .padding(16.dp)
+                                ) {
+                                    TextBodyLarge(text = field.title)
 
-                                when (field.type) {
-                                    BlockType.DROP_DOWN.slug, BlockType.CHOICE.slug -> {
-                                        // PieChart
-                                        val pieData = field.readableStats.map {
-                                            it.key to ChartItem(
-                                                value = it.value.toFloat(),
-                                                color = block
-                                                    .block
-                                                    .settings
-                                                    .color[field.slug]?.get(it.key) ?: ""
+                                    when (field.type) {
+                                        BlockType.DROP_DOWN.slug, BlockType.CHOICE.slug -> {
+                                            // PieChart
+                                            val pieData = field.readableStats.map {
+                                                it.key to ChartItem(
+                                                    value = it.value.toFloat(),
+                                                    color = block
+                                                        .block
+                                                        .settings
+                                                        .color[field.slug]?.get(it.key) ?: ""
+                                                )
+                                            }
+
+                                            AnimatedPieChart(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(horizontal = 16.dp),
+                                                data = pieData
                                             )
                                         }
+                                        BlockType.MULTI_SELECT.slug -> {
+                                            // BarChart
+                                            val barData = field.readableStats.map {
+                                                it.key to ChartItem(
+                                                    value = it.value.toFloat(),
+                                                    color = block
+                                                        .block
+                                                        .settings
+                                                        .color[field.slug]?.get(it.key) ?: ""
+                                                )
+                                            }
 
-                                        AnimatedPieChart(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(16.dp),
-                                            data = pieData
-                                        )
-                                    }
-                                    BlockType.MULTI_SELECT.slug -> {
-                                        // BarChart
-                                        val barData = field.readableStats.map {
-                                            it.key to ChartItem(
-                                                value = it.value.toFloat(),
-                                                color = block
-                                                    .block
-                                                    .settings
-                                                    .color[field.slug]?.get(it.key) ?: ""
+                                            AnimatedBarChart(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(16.dp),
+                                                data = barData
                                             )
                                         }
-
-                                        AnimatedBarChart(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(16.dp),
-                                            data = barData
-                                        )
                                     }
                                 }
                             }
