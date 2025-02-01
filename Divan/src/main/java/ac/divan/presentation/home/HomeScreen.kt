@@ -1,8 +1,10 @@
 package ac.divan.presentation.home
 
+import ac.divan.R
 import ac.divan.data.remote.dto.block.BlockType
 import ac.divan.data.remote.dto.block.Content
 import ac.divan.data.remote.dto.content_pagination.RenderedDataItem
+import ac.divan.presentation.components.button.ButtonPrimary
 import ac.divan.presentation.components.text.TextBodyLarge
 import ac.divan.presentation.components.text.TextBodyMedium
 import ac.divan.presentation.components.text.TextTitleLarge
@@ -17,6 +19,7 @@ import ac.divan.presentation.home.components.charts.ChartItem
 import ac.divan.presentation.home.components.table.TableCell
 import ac.divan.presentation.home.components.table.TableHeaderCell
 import ac.divan.ui.theme.Dimens
+import ac.divan.util.extensions.openUrl
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -38,6 +41,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.paging.LoadState
@@ -52,6 +57,7 @@ fun HomeScreen(
     data: List<Content>,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val state = viewModel.state
     val items: LazyPagingItems<List<RenderedDataItem>> = viewModel.contentPaginatedState.collectAsLazyPagingItems()
     val initialLoading = items.loadState.refresh is LoadState.Loading
@@ -81,7 +87,22 @@ fun HomeScreen(
                 BlockType.PARAGRAPH.slug -> {
                     section.content.forEach { item ->
                         item {
-                            TextBodyMedium(item.text ?: "", modifier = Modifier.padding(vertical = Dimens.normal))
+                            when (item.type) {
+                                BlockType.LINK.slug -> {
+                                    ButtonPrimary(
+                                        text = item.text ?: stringResource(R.string.follow_url),
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        context.openUrl(item.href)
+                                    }
+                                }
+                                else -> {
+                                    TextBodyMedium(
+                                        text = item.text ?: "",
+                                        modifier = Modifier.padding(vertical = Dimens.normal)
+                                    )
+                                }
+                            }
                         }
                     }
                 }
