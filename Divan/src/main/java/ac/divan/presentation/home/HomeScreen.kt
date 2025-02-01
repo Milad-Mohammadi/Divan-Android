@@ -302,7 +302,8 @@ fun HomeScreen(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
                                                     .padding(horizontal = Dimens.medium),
-                                                data = pieData
+                                                data = pieData,
+                                                showPercent = true
                                             )
                                         }
                                         BlockType.MULTI_SELECT.slug -> {

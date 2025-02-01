@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import kotlin.math.cos
+import kotlin.math.round
 import kotlin.math.sin
 
 @Composable
@@ -41,8 +42,8 @@ fun AnimatedPieChart(
     val density = LocalDensity.current
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
-    val totalSum = data.sumOf { it.second.value.toInt() }
-    val floatValue = data.map { 360 * it.second.value / totalSum.toFloat() }
+    val totalSum = data.sumOf { it.second.value.toDouble() }.toFloat()
+    val floatValue = data.map { (it.second.value / totalSum) * 360f }
 
     var animationPlayed by remember { mutableStateOf(false) }
     var lastValue = 0f
@@ -79,34 +80,37 @@ fun AnimatedPieChart(
                     .rotate(animateRotation)
             ) {
                 floatValue.forEachIndexed { index, value ->
-                    drawArc(
-                        color = if (data[index].second.color.isBlank()) primary
-                                else Color(android.graphics.Color.parseColor(data[index].second.color)),
-                        startAngle = lastValue,
-                        sweepAngle = value,
-                        useCenter = true
-                    )
-
-                    val angle = Math.toRadians((lastValue + value / 2).toDouble())
-                    val x = center.x + (size.width / 3) * cos(angle)
-                    val y = center.y + (size.height / 3) * sin(angle)
-                    drawContext.canvas.nativeCanvas.apply {
-                        drawText(
-                            if (showPercent) {
-                                "${(data[index].second.value / totalSum.toFloat() * 100).toInt()}%"
-                            } else {
-                                "${data[index].second.value.toInt()}"
-                            },
-                            x.toFloat(),
-                            y.toFloat(),
-                            android.graphics.Paint().apply {
-                                color = android.graphics.Color.BLACK
-                                textSize = size.minDimension / 20
-                                textAlign = android.graphics.Paint.Align.CENTER
-                            }
+                    if (value > 0f) {
+                        drawArc(
+                            color = if (data[index].second.color.isBlank()) primary
+                            else Color(android.graphics.Color.parseColor(data[index].second.color)),
+                            startAngle = lastValue,
+                            sweepAngle = value,
+                            useCenter = true
                         )
+                        val angle = Math.toRadians((lastValue + value / 2).toDouble())
+                        val x = center.x + (size.width / 3) * cos(angle)
+                        val y = center.y + (size.height / 3) * sin(angle)
+                        val count = data[index].second.value.toInt()
+                        val percent = round(data[index].second.value / totalSum * 100).toInt()
+                        drawContext.canvas.nativeCanvas.apply {
+                            drawText(
+                                if (showPercent) {
+                                    "$percent%"
+                                } else {
+                                    count.toString()
+                                },
+                                x.toFloat(),
+                                y.toFloat(),
+                                android.graphics.Paint().apply {
+                                    color = android.graphics.Color.BLACK
+                                    textSize = size.minDimension / 25
+                                    textAlign = android.graphics.Paint.Align.CENTER
+                                }
+                            )
+                        }
+                        lastValue += value
                     }
-                    lastValue += value
                 }
             }
         }
