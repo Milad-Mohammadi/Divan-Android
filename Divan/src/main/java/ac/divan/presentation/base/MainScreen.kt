@@ -43,6 +43,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -53,6 +54,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(menu: Block) {
+    val context = LocalContext.current
     val navController = rememberNavController()
     var selectedNavItemSlug by rememberSaveable { mutableStateOf(menu.block.items.first().slug) }
     var selectedNavItemTitle by rememberSaveable { mutableStateOf(menu.block.items.first().title) }
@@ -84,8 +86,9 @@ fun MainScreen(menu: Block) {
                                     TextBodySmall(item.title, modifier = Modifier.padding(Dimens.medium).alpha(0.7f))
                                     item.subItems?.forEachIndexed { _, subItem ->
                                         NavDrawerItem(
+                                            context = context,
                                             slug = subItem.slug,
-                                            icon = subItem.icon,
+                                            icon = subItem.icon?.image,
                                             title = subItem.title,
                                             isSelected = subItem.slug == selectedNavItemSlug,
                                             onSelect = {
@@ -100,8 +103,9 @@ fun MainScreen(menu: Block) {
                             else -> {
                                 item {
                                     NavDrawerItem(
+                                        context = context,
                                         slug = item.slug,
-                                        icon = item.icon,
+                                        icon = item.icon?.image,
                                         title = item.title,
                                         isSelected = item.slug == selectedNavItemSlug,
                                         onSelect = {
