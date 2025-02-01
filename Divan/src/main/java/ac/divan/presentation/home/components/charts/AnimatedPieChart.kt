@@ -6,12 +6,12 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import kotlin.math.cos
 import kotlin.math.sin
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun AnimatedPieChart(
     modifier: Modifier = Modifier,
@@ -38,6 +37,7 @@ fun AnimatedPieChart(
     animDuration: Int = 500,
     showPercent: Boolean = false
 ) {
+    val primary = MaterialTheme.colors.primary
     val density = LocalDensity.current
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
@@ -80,7 +80,8 @@ fun AnimatedPieChart(
             ) {
                 floatValue.forEachIndexed { index, value ->
                     drawArc(
-                        color = Color(android.graphics.Color.parseColor(data[index].second.color)),
+                        color = if (data[index].second.color.isBlank()) primary
+                                else Color(android.graphics.Color.parseColor(data[index].second.color)),
                         startAngle = lastValue,
                         sweepAngle = value,
                         useCenter = true
@@ -100,7 +101,7 @@ fun AnimatedPieChart(
                             y.toFloat(),
                             android.graphics.Paint().apply {
                                 color = android.graphics.Color.BLACK
-                                textSize = size.minDimension / 15
+                                textSize = size.minDimension / 20
                                 textAlign = android.graphics.Paint.Align.CENTER
                             }
                         )

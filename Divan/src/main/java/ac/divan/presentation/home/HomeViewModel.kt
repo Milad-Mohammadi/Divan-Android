@@ -41,13 +41,13 @@ open class HomeViewModel @Inject constructor(
         content.forEach {
             when (it.type) {
                 BlockType.GRID_VIEW.slug -> {
-                    it.props.getData()?.slug?.let { slug -> getContentPaginated(slug = slug) }
+                    it.props.data?.slug?.let { slug -> getContentPaginated(slug = slug) }
                 }
                 BlockType.TABLE.slug -> {
-                    it.props.getData()?.slug?.let { slug -> getContentPaginated(slug = slug) }
+                    it.props.data?.slug?.let { slug -> getContentPaginated(slug = slug) }
                 }
                 BlockType.FORM_CHARTS.slug -> {
-                    it.props.getData()?.slug?.let { slug -> getBlock(slug = slug) }
+                    it.props.data?.slug?.let { slug -> getBlock(slug = slug) }
                 }
             }
         }
