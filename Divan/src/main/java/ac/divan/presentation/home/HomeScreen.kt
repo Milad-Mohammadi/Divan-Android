@@ -155,6 +155,7 @@ fun HomeScreen(
                         val headers = mutableListOf<String>()
                         val header = items[0]
                         header?.forEach { headers.add(it.title) }
+                        val tableCellWidth = Dimens.huge * 2
 
                         stickyHeader {
                             Column(
@@ -170,7 +171,7 @@ fun HomeScreen(
                                     headers.forEach { header ->
                                         TableHeaderCell(
                                             text = header,
-                                            modifier = Modifier.width(Dimens.huge)
+                                            modifier = Modifier.width(tableCellWidth)
                                         )
                                     }
                                 }
@@ -199,7 +200,7 @@ fun HomeScreen(
                                         item?.forEach {
                                             TableCell(
                                                 item = it,
-                                                modifier = Modifier.width(Dimens.huge)
+                                                modifier = Modifier.width(tableCellWidth)
                                             )
                                         }
                                     }
