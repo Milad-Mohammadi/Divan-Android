@@ -47,22 +47,20 @@ fun NavDrawerItem(
                 horizontalArrangement = Arrangement.spacedBy(Dimens.smaller),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (!icon.isNullOrBlank()) {
-                    AsyncImage(
-                        model = icon,
-                        contentDescription = title,
-                        modifier = Modifier
-                            .padding(Dimens.normal)
-                            .fillMaxWidth(0.1f),
-                        colorFilter = ColorFilter.tint(
-                            if (isSelected) MaterialTheme.colorScheme.primary
-                            else MaterialTheme.colorScheme.onBackground
-                        ),
-                        error = painterResource(R.drawable.ic_logo),
-                        placeholder = painterResource(R.drawable.ic_logo),
-                        imageLoader = UiTools.createSVGImageLoader(context)
-                    )
-                }
+                AsyncImage(
+                    model = icon,
+                    contentDescription = title,
+                    modifier = Modifier
+                        .padding(Dimens.normal)
+                        .fillMaxWidth(0.1f),
+                    colorFilter = ColorFilter.tint(
+                        if (isSelected) MaterialTheme.colorScheme.primary
+                        else MaterialTheme.colorScheme.onBackground
+                    ),
+                    error = painterResource(R.drawable.ic_logo),
+                    placeholder = painterResource(R.drawable.ic_logo),
+                    imageLoader = UiTools.createSVGImageLoader(context)
+                )
 
                 TextBodyMedium(
                     text = title,
