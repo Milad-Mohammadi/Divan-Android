@@ -10,7 +10,7 @@ data class BlockContent(
 ) {
     data class BlockItem(
         val slug: String,
-        val icon: String?,
+        val icon: IconData?,
         val title: String,
         val type: String,
         var content: List<Content>,
@@ -41,5 +41,9 @@ data class BlockContent(
 
     data class BlockSettings(
         val color: Map<String, Map<String, String>>,
+    )
+
+    data class IconData(
+        val image: String?
     )
 }

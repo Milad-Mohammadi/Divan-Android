@@ -8,4 +8,5 @@
   <string name="connection_error_description">Error connecting to server, please try again!</string>
   <string name="no_data">There is no menu data in the form!</string>
   <string name="retry">Retry</string>
+  <string name="follow_url">Follow this link</string>
 </resources>
