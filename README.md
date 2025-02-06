@@ -1,4 +1,5 @@
-# 📱 Divan Android App  
+# <p><img src="static/logo.svg" width="64" align="center"> Divan Android App<p/>
+
 [Divan: A Hub for Iranian Entrepreneurs](https://divan.ac)  
 
 **Divan Android App, powered by the [Formaloo API](https://docs.formaloo.com/), provides real-time data on Iranian entrepreneurs, startups, news, and industry insights.**  
